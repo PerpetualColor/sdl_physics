@@ -400,7 +400,7 @@ pub fn render_text(
                 size_y: g.bitmap().rows(),
                 bearing_x: g.bitmap_left(),
                 bearing_y: g.bitmap_top(),
-                advance: g.advance().x
+                advance: g.advance().x.into()
             });
         }
         let c = window_info.character_map.get(&glyph).unwrap();

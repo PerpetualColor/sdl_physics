@@ -340,7 +340,7 @@ fn main() {
                                 }
                                 "create_sine" => {
                                     let mut s = sim.borrow_mut();
-                                    let n = 3000.0;
+                                    let n = 30000.0;
                                     for x in -n as isize..n as isize {
                                         let theta = ((x as f32)/n) * 2.0 * PI;
                                         s.add_particle(x as f32 / (n / 30.0), theta.sin() * 10.0, 0.0, 10.0_f32.sqrt() * 10.0 * theta.cos());
