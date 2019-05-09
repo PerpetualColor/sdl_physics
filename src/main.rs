@@ -5,6 +5,7 @@ use std::cell::RefCell;
 use std::cmp;
 use std::ffi::CString;
 use std::rc::Rc;
+use std::f32::consts::PI;
 
 mod gl_draw;
 mod gl_render;
@@ -104,7 +105,7 @@ fn main() {
         gl.ClearColor(1.0, 1.0, 1.0, 1.0);
         gl.PointSize(7.0);
     }
-    
+
     // setup simulator
     let sim = Rc::new(RefCell::new(Simulator::new(1.0 / 120.0)));
 
@@ -149,6 +150,14 @@ fn main() {
         0.16,
         0.06,
         "create_grid".to_string(),
+    )));
+    let sine_button = Rc::new(RefCell::new(input::Button::new(
+        &gl,
+        -0.95 + 0.20,
+        0.71,
+        0.16,
+        0.06,
+        "create_sine".to_string(),
     )));
 
     let gravity_button = Rc::new(RefCell::new(input::Button::new(
@@ -226,19 +235,20 @@ fn main() {
     let mut bounce_string = String::from("Enable Bounce");
 
     let mut buttons_vec: Vec<Rc<RefCell<input::Button>>> = Vec::new();
-    buttons_vec.push(play_button.clone());
-    buttons_vec.push(pause_button.clone());
-    buttons_vec.push(clear_button.clone());
-    buttons_vec.push(grid_button.clone());
-    buttons_vec.push(gravity_button.clone());
-    buttons_vec.push(gravity_resistive_button.clone());
-    buttons_vec.push(butterfly_button.clone());
-    buttons_vec.push(windows_xp_button.clone());
-    buttons_vec.push(logistic_button.clone());
-    buttons_vec.push(bounce_button.clone());
-    buttons_vec.push(inverse_square_button.clone());
-    buttons_vec.push(harmonic_button.clone());
-    buttons_vec.push(no_force_button.clone());
+    buttons_vec.push(play_button);
+    buttons_vec.push(pause_button);
+    buttons_vec.push(clear_button);
+    buttons_vec.push(grid_button);
+    buttons_vec.push(gravity_button);
+    buttons_vec.push(gravity_resistive_button);
+    buttons_vec.push(butterfly_button);
+    buttons_vec.push(windows_xp_button);
+    buttons_vec.push(logistic_button);
+    buttons_vec.push(bounce_button);
+    buttons_vec.push(inverse_square_button);
+    buttons_vec.push(harmonic_button);
+    buttons_vec.push(sine_button);
+    buttons_vec.push(no_force_button);
 
     // setup freetype
 
@@ -326,6 +336,14 @@ fn main() {
                                         for j in -20..20 {
                                             s.add_particle(i as f32, j as f32, 0.0, 0.0);
                                         }
+                                    }
+                                }
+                                "create_sine" => {
+                                    let mut s = sim.borrow_mut();
+                                    let n = 3000.0;
+                                    for x in -n as isize..n as isize {
+                                        let theta = ((x as f32)/n) * 2.0 * PI;
+                                        s.add_particle(x as f32 / (n / 30.0), theta.sin() * 10.0, 0.0, 10.0_f32.sqrt() * 10.0 * theta.cos());
                                     }
                                 }
                                 "force_Gravity" => {
@@ -534,6 +552,32 @@ fn main() {
             &mut ft_vbo,
             &mut window_info,
             30.0,
+            500.0,
+            0.25,
+        );
+
+        gl_draw::render_text(
+            &gl,
+            "Grid",
+            &ft_face,
+            &ft_program,
+            &mut ft_vao,
+            &mut ft_vbo,
+            &mut window_info,
+            30.0,
+            500.0,
+            0.25,
+        );
+
+        gl_draw::render_text(
+            &gl,
+            "Sine",
+            &ft_face,
+            &ft_program,
+            &mut ft_vao,
+            &mut ft_vbo,
+            &mut window_info,
+            110.0,
             500.0,
             0.25,
         );
