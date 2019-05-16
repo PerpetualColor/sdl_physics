@@ -41,6 +41,7 @@ fn main() {
     let gl =
         gl::Gl::load_with(|s| video_subsystem.gl_get_proc_address(s) as *const std::ffi::c_void);
 
+    video_subsystem.gl_set_swap_interval(sdl2::video::SwapInterval::VSync).unwrap();
     // create shaders and program
 
     let vertex_shader = gl_render::Shader::from_vertex_source(
@@ -340,7 +341,7 @@ fn main() {
                                 }
                                 "create_sine" => {
                                     let mut s = sim.borrow_mut();
-                                    let n = 60.0;
+                                    let n = 500.0;
                                     for x in -n as isize..n as isize {
                                         let theta = ((x as f32)/n) * 2.0 * PI;
                                         s.add_particle(x as f32 / (n / 30.0), theta.sin() * 10.0, 0.0, 10.0_f32.sqrt() * 10.0 * theta.cos());

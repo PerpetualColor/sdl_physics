@@ -135,7 +135,7 @@ impl Button {
             )
         };
         unsafe {
-            self.gl.Uniform4f(vertex_color_location, 0.95, 0.95, 0.95, 1.0);
+            self.gl.Uniform4f(vertex_color_location, 0.95, 0.95, 0.95, 0.8);
             self.gl.LineWidth(1.0);
             self.gl.BindVertexArray(self.vao_id);
             self.gl.DrawArrays(gl::TRIANGLE_FAN, 0, (self.coordinates.len() / 3) as i32 - 8);

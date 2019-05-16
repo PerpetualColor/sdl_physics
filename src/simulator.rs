@@ -90,7 +90,7 @@ impl Simulator {
         let position = &p.pos;
         match self.function {
             // forces
-            SimulateFunction::Gravity => PhysVector { x: 0.0, y: -9.8 },
+            SimulateFunction::Gravity => PhysVector { x: 0.0, y: -20.0 },
             SimulateFunction::GravityResistive => {
                 let c: f32 = -0.7;
                 let a = PhysVector { x: 0.0, y: -9.8 };
