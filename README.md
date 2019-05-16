@@ -12,7 +12,7 @@ The required libraries (freetype.lib, freetype.dll, and sdl2.dll) are included i
 You will need to download or build freetype and sdl2 libraries. Build using ` cargo build` and run with `cargo run`.
 
 ## Usage
-It's mostly self-explanatory. Play to play, pause to pause, grid to make a grid, sine to make a sine wave of particles, and a list of functions to play around with.
+It's mostly self-explanatory. Play to play, pause to pause, grid to make a grid, sine to make a sine wave of particles, and a list of functions to play around with. The little lines all over the graph are acceleration vectors, the strengths of which are represented by the redness. Click and drag to add a new particle.
 
 ### Screenshots
 Gravity Simulation
