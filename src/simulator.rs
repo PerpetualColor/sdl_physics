@@ -64,10 +64,18 @@ impl Simulator {
                     }
                     if sim.bounce_off_walls {
                         if p.pos.x > 30.0 || p.pos.x < -30.0 {
-                            p.vel.x = p.vel.x * -1.0;
+                            if p.pos.x > 30.0 && p.vel.x > 0.0 {
+                                p.vel.x = p.vel.x * -1.0;
+                            } else if p.pos.x < -30.0 && p.vel.x < 0.0 {
+                                p.vel.x = p.vel.x * -1.0;
+                            }
                         }
                         if p.pos.y > 30.0 || p.pos.y < -30.0 {
-                            p.vel.y = p.vel.y * -1.0;
+                            if p.pos.y > 30.0 && p.vel.y > 0.0 {
+                                p.vel.y = p.vel.y * -1.0;
+                            } else if p.pos.y < -30.0 && p.vel.y < 0.0 {
+                                p.vel.y = p.vel.y * -1.0;
+                            }
                         }
                     }
                 }
