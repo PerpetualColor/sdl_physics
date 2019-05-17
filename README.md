@@ -23,3 +23,6 @@ Butterfly-Looking Force
 
 Harmonic Sine-Wave
 ![alt text](https://raw.githubusercontent.com/PerpetualColor/sdl_physics/master/screenshots/harmonic_sine.gif "Harmonic Sine Wave Simulation")
+
+### Credit
+Credit for much of the GL code to [nercury's tutorial](http://nercury.github.io/rust/opengl/tutorial/2018/02/08/opengl-in-rust-from-scratch-01-window.html) and to [learnopengl.com](learnopengl.com).
