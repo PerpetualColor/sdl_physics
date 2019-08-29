@@ -12,7 +12,8 @@ pub enum SimulateFunction {
     Logistic,
     InverseSquare,
     Harmonic,
-    NoForce
+    ParallelElectric,
+    NoForce,
 }
 
 pub struct Simulator {
@@ -36,7 +37,7 @@ impl Simulator {
             steps: 0,
             timestep: timestep,
             function: SimulateFunction::Gravity,
-            bounce_off_walls: false
+            bounce_off_walls: false,
         }
     }
 
@@ -138,9 +139,51 @@ impl Simulator {
                     y: -theta.sin() * mag
                 }
             }
+            SimulateFunction::ParallelElectric => {
+                let particle_count = 200;
+                let particle_range = 30.0;
+                let particle_factor = 5.0;
+                let positive_force = |part_x: f32, part_y: f32| -> PhysVector {
+                    let dist: f32 =
+                        ((part_x - position.x).powf(2.0) + (part_y - position.y).powf(2.0)).sqrt();
+                    let mag: f32 = particle_factor / dist;
+                    let theta = (position.y - part_y).atan2(position.x - part_x);
+                    PhysVector {
+                        x: theta.cos() * mag,
+                        y: theta.sin() * mag,
+                    }
+                };
+                let negative_force = |part_x: f32, part_y: f32| -> PhysVector {
+                    let dist: f32 =
+                        ((part_x - position.x).powf(2.0) + (part_y - position.y).powf(2.0)).sqrt();
+                    let mag: f32 = particle_factor / dist;
+                    let theta = (position.y - part_y).atan2(position.x - part_x);
+                    PhysVector {
+                        x: -theta.cos() * mag,
+                        y: -theta.sin() * mag,
+                    }
+                };
+                let mut output = PhysVector { x: 0.0, y: 0.0 };
+                for ind in 0..particle_count {
+                    output = &output
+                        + &(&positive_force(
+                            (ind as f32) * particle_range / (particle_count as f32)
+                                - (particle_range / 2.0),
+                            20.0,
+                        ) + &negative_force(
+                            (ind as f32) * particle_range / (particle_count as f32)
+                                - (particle_range / 2.0),
+                            -20.0,
+                        ));
+                }
+                return output;
+            }
             SimulateFunction::Harmonic => {
                 let k = 10.0;
-                PhysVector { x: 0.0, y: -k*position.y }
+                PhysVector {
+                    x: 0.0,
+                    y: -k * position.y,
+                }
             }
             _ => PhysVector { x: 0.0, y: 0.0 },
         }

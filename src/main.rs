@@ -209,10 +209,18 @@ fn main() {
         0.06,
         "force_InverseSquare".to_string(),
     )));
-    let harmonic_button = Rc::new(RefCell::new(input::Button::new(
+    let parallel_electric_button = Rc::new(RefCell::new(input::Button::new(
         &gl,
         -0.95,
         0.15,
+        0.32,
+        0.06,
+        "force_ParallelElectric".to_string(),
+    )));
+    let harmonic_button = Rc::new(RefCell::new(input::Button::new(
+        &gl,
+        -0.95,
+        0.07,
         0.32,
         0.06,
         "force_Harmonic".to_string(),
@@ -220,7 +228,7 @@ fn main() {
     let no_force_button = Rc::new(RefCell::new(input::Button::new(
         &gl,
         -0.95,
-        0.07,
+        -0.01,
         0.32,
         0.06,
         "force_NoForce".to_string(),
@@ -247,6 +255,7 @@ fn main() {
     buttons_vec.push(logistic_button);
     buttons_vec.push(bounce_button);
     buttons_vec.push(inverse_square_button);
+    buttons_vec.push(parallel_electric_button);
     buttons_vec.push(harmonic_button);
     buttons_vec.push(sine_button);
     buttons_vec.push(no_force_button);
@@ -341,7 +350,7 @@ fn main() {
                                 }
                                 "create_sine" => {
                                     let mut s = sim.borrow_mut();
-                                    let n = 5000.0;
+                                    let n = 100.0;
                                     for x in -n as isize..n as isize {
                                         let theta = ((x as f32)/n) * 2.0 * PI;
                                         s.add_particle(x as f32 / (n / 30.0), theta.sin() * 10.0, 0.0, 10.0_f32.sqrt() * 10.0 * theta.cos());
@@ -381,6 +390,11 @@ fn main() {
                                 "force_NoForce" => {
                                     sim.borrow_mut()
                                         .set_function(simulator::SimulateFunction::NoForce);
+                                    window_info.vectors_require_update = true;
+                                }
+                                "force_ParallelElectric" => {
+                                    sim.borrow_mut()
+                                        .set_function(simulator::SimulateFunction::ParallelElectric);
                                     window_info.vectors_require_update = true;
                                 }
                                 "force_Harmonic" => {
@@ -663,7 +677,7 @@ fn main() {
 
         gl_draw::render_text(
             &gl,
-            "Harmonic",
+            "Parallel Electric",
             &ft_face,
             &ft_program,
             &mut ft_vao,
@@ -676,7 +690,7 @@ fn main() {
 
         gl_draw::render_text(
             &gl,
-            "No Force",
+            "Harmonic",
             &ft_face,
             &ft_program,
             &mut ft_vao,
@@ -684,6 +698,19 @@ fn main() {
             &mut window_info,
             30.0,
             308.0,
+            0.25,
+        );
+
+        gl_draw::render_text(
+            &gl,
+            "No Force",
+            &ft_face,
+            &ft_program,
+            &mut ft_vao,
+            &mut ft_vbo,
+            &mut window_info,
+            30.0,
+            286.0,
             0.25,
         );
 
