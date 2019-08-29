@@ -8,7 +8,7 @@ You may need to install your OpenGL libraries and SDL2 libraries. Then just run
 ### Windows x64
 The required libraries (freetype.lib, freetype.dll, and sdl2.dll) are included in the binary. Just run 
 ` cargo run`
-### Windows x86_64
+### Windows x86
 You will need to download or build freetype and sdl2 libraries. Build using ` cargo build` and run with `cargo run`.
 
 ## Usage
